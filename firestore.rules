@@ -4,5 +4,13 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
+
+    match /teams/{teamId} {
+      allow create: if (uid() != null);
+    }
+  }
+
+  function uid() {
+    return request.auth.uid;
   }
 }

@@ -1,6 +1,6 @@
 import {afterEach, before, describe, it} from "mocha";
 import {
-  assertFails,
+  assertFails, assertSucceeds,
   initializeTestEnvironment,
   RulesTestEnvironment
 } from "@firebase/rules-unit-testing";
@@ -8,10 +8,12 @@ import {getTeam} from "../helpers/Team";
 import firebase from "firebase/compat";
 
 const PROJECT_ID = "heig-firebase-testing";
+const userAId = "userAId";
 
 describe("Firebase rules", async () => {
   let testEnv: RulesTestEnvironment;
   let unauthenticatedFirestore: firebase.firestore.Firestore;
+  let userAFirestore: firebase.firestore.Firestore;
 
   before(async () => {
     testEnv = await initializeTestEnvironment({
@@ -23,6 +25,7 @@ describe("Firebase rules", async () => {
     });
 
     unauthenticatedFirestore = testEnv.unauthenticatedContext().firestore();
+    userAFirestore = testEnv.authenticatedContext(userAId).firestore();
   })
 
   afterEach(async () => {
@@ -35,6 +38,13 @@ describe("Firebase rules", async () => {
 
     await assertFails(
       unauthenticatedFirestore.collection("/teams").add(team)
+    );
+  });
+  it("Authenticated users can create a team", async () => {
+    const team = getTeam("my test team");
+
+    await assertSucceeds(
+      userAFirestore.collection("/teams").add(team)
     );
   });
 });
