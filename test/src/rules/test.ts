@@ -47,4 +47,12 @@ describe("Firebase rules", async () => {
       userAFirestore.collection("/teams").add(team)
     );
   });
+
+  it("Cannot create a team if missing name", async () => {
+    const fakeTeam = {}
+
+    await assertFails(
+      userAFirestore.collection("/teams").add(fakeTeam)
+    );
+  });
 });

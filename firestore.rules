@@ -6,11 +6,22 @@ service cloud.firestore {
     }
 
     match /teams/{teamId} {
-      allow create: if (uid() != null);
+      allow create: if (uid() != null) &&
+                       documentFieldsCheckOut(["name"], []);
     }
   }
 
   function uid() {
     return request.auth.uid;
+  }
+
+  function incoming() {
+    return request.resource.data;
+  }
+
+  function documentFieldsCheckOut(requiredFields, optionalFields) {
+    let allFields = requiredFields.concat(optionalFields);
+
+    return incoming().keys().hasAll(requiredFields) && incoming().keys().hasOnly(allFields);
   }
 }
