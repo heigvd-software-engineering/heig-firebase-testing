@@ -10,6 +10,7 @@ Non-Goals:
 * Implement an interface
 * Have a lot of features
 * Have perfect NoSQL model
+* Be a complete example of the application
 
 ## Application
 
