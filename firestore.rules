@@ -7,7 +7,9 @@ service cloud.firestore {
 
     match /teams/{teamId} {
       allow create: if (uid() != null) &&
-                       documentFieldsCheckOut(["name"], []);
+                       documentFieldsCheckOut(["name", "roles"], []) &&
+                       uid() in incoming().roles.member &&
+                       uid() in incoming().roles.admin;
     }
   }
 

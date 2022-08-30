@@ -41,7 +41,7 @@ describe("Firebase rules", async () => {
     );
   });
   it("Authenticated users can create a team", async () => {
-    const team = getTeam("my test team");
+    const team = getTeam("my test team", [userAId], [userAId]);
 
     await assertSucceeds(
       userAFirestore.collection("/teams").add(team)
@@ -55,4 +55,21 @@ describe("Firebase rules", async () => {
       userAFirestore.collection("/teams").add(fakeTeam)
     );
   });
+
+  it("Non administrators of a team cannot create it", async () => {
+    const team = getTeam(
+      "My team",
+      ["SomeOtherId"],
+      ["SomeOtherId"],
+    )
+
+    await assertFails(
+      userAFirestore.collection("/teams").add(team)
+    );
+  });
+
+  /*
+   * You can of course check a lot more cases, but this will cover the basics of
+   *  rule checking
+   */
 });
