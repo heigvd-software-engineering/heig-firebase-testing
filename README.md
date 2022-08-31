@@ -4,17 +4,16 @@
 
 Goals:
 * Show how to test firebase's firestore with rule testing
-* Show how to test some firebase's cloud functions
+* Show how to test firebase's cloud functions
 
 Non-Goals:
-* Implement an interface
-* Have a lot of features
-* Have perfect NoSQL model
 * Be a complete example of the application
+* Implement UI
+* Have perfect NoSQL model
 
 ## Application
 
-We are making a simple team-based todo application. We're going to have three main data structures:
+Suppose that we are making a simple team-based todo application and that we have three main data structures:
 * Teams
 * Projects
 * Tasks
@@ -24,4 +23,6 @@ Teams will also have normal members who will be allowed to create, modify and de
 
 Projects are just going to be "containers" for tasks. They will contain some sort of metadata.
 
-Tasks are the heart of the program, but they're going to be a glorified text fiel.
+Tasks are the heart of the program, but they're going to be a glorified text field.
+
+_To be clear, we are only going to implement a very small part of this_
